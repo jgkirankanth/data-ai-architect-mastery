@@ -1,0 +1,18 @@
+﻿trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: AzureCLI@2
+  displayName: 'Deploy Bicep Infrastructure'
+  inputs:
+    azureSubscription: 'Azure-Dev-Service-Connection'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az deployment group create \
+        --resource-group rg-data-ai-dev \
+        --template-file ./02-azure-data-platform/infrastructure/main.bicep \
+        --parameters environment=dev
